@@ -219,6 +219,23 @@
       .g2,.g3,.g4{grid-template-columns:1fr}
       .brand-name{display:none}
     }
+    .idrop{border:2px dashed var(--bdr-s);border-radius:var(--r);padding:28px 20px;
+      text-align:center;cursor:pointer;transition:all .2s;background:rgba(245,242,238,.03)}
+    .idrop:hover,.idrop.ov{border-color:var(--gold);background:var(--gold-bg)}
+    .idrop input{display:none}
+    .idrop-ico{font-size:26px;margin-bottom:8px;opacity:.4}
+    .idrop-t{font-size:13px;font-weight:600;margin-bottom:3px}
+    .idrop-s{font-size:11px;color:var(--dim);line-height:1.4}
+    .i-prev{margin-top:12px;display:none}
+    .i-prev img{width:100%;max-height:150px;object-fit:cover;border-radius:var(--rs)}
+    .i-or{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:11px;color:var(--dim)}
+    .i-or::before,.i-or::after{content:'';flex:1;height:1px;background:var(--bdr)}
+    .ia{display:none;flex-direction:column;align-items:center;gap:8px;
+      padding:16px 22px;color:var(--dim);font-size:13px;border-top:1px solid var(--bdr)}
+    .ia.on{display:flex}
+    .spin{width:20px;height:20px;border:2px solid var(--bdr-s);border-top-color:var(--gold);
+      border-radius:50%;animation:sp .7s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
@@ -243,7 +260,10 @@
 <section id="v-dash" class="view on">
   <div class="row">
     <div class="col"><div class="vt">Tableau de bord</div><div class="vs" id="d-week">Semaine en cours</div></div>
-    <button class="btn btn-p" onclick="openPM()">+ Prospect</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-g" onclick="openIM()">✦ Importer</button>
+      <button class="btn btn-p" onclick="openPM()">+ Prospect</button>
+    </div>
   </div>
   <div class="g4">
     <div class="card kpi"><div class="kpi-lbl">Prospects actifs</div><div class="kpi-val" id="k-act">0</div><div class="kpi-sub">dans le pipeline</div></div>
@@ -264,7 +284,10 @@
 <section id="v-pipe" class="view">
   <div class="row">
     <div class="col"><div class="vt">Pipeline commercial</div><div class="vs" id="p-sub">0 prospect(s)</div></div>
-    <button class="btn btn-p" onclick="openPM()">+ Prospect</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-g" onclick="openIM()">✦ Importer</button>
+      <button class="btn btn-p" onclick="openPM()">+ Prospect</button>
+    </div>
   </div>
   <div class="toolbar">
     <input class="si" type="text" placeholder="Rechercher…" id="p-q" oninput="rPipe()">
@@ -398,6 +421,35 @@
       <div class="fi sp"><label class="lbl">Notes</label><textarea class="inp" id="mpr-nt" placeholder="Notes…"></textarea></div>
     </div></div>
     <div class="mf"><button class="btn btn-g" onclick="cm('m-prod')">Annuler</button><button class="btn btn-p" onclick="saveProd()">Enregistrer</button></div>
+  </div>
+</div>
+<div class="mov" id="m-imp">
+  <div class="mbox" style="max-width:500px">
+    <div class="mh"><div class="mt">✦ Importer un prospect</div><button class="mx" onclick="cm('m-imp')">✕</button></div>
+    <div class="mb">
+      <div class="idrop" id="idrop"
+           onclick="document.getElementById('ifile').click()"
+           ondragover="event.preventDefault();this.classList.add('ov')"
+           ondragleave="this.classList.remove('ov')"
+           ondrop="onDrop(event)">
+        <input type="file" id="ifile" accept="image/*" onchange="onFile(this.files[0])">
+        <div class="idrop-ico">📎</div>
+        <div class="idrop-t">Glisser une capture d'écran ici</div>
+        <div class="idrop-s">Email · SMS · LinkedIn · WhatsApp — JPG, PNG, WEBP</div>
+        <div class="i-prev" id="i-prev"><img id="i-img" src="" alt=""></div>
+      </div>
+      <div class="i-or">ou</div>
+      <div class="fi">
+        <label class="lbl">Coller du texte</label>
+        <textarea class="inp" id="i-txt" placeholder="Colle un email, un message, des coordonnées…" style="min-height:90px"></textarea>
+      </div>
+    </div>
+    <div class="ia" id="i-load"><div class="spin"></div><span>Analyse en cours…</span></div>
+    <div id="i-err" style="display:none;padding:0 22px 12px;font-size:12px;color:var(--rust)"></div>
+    <div class="mf">
+      <button class="btn btn-g" onclick="cm('m-imp')">Annuler</button>
+      <button class="btn btn-p" onclick="doAnalyze()">✦ Analyser</button>
+    </div>
   </div>
 </div>
 <div id="toast"></div>
@@ -590,7 +642,58 @@ function rCt(){
 function atp(type,idx){const c=type==='a'?ARIA[idx]:AGE[idx];openPM({pr:c.co,ct:c.nm,sr:type==='a'?'ARIA Alsace':'Agences',fa:'Production rapide',of:'Reportage photo événementiel',st:'À contacter',d1:new Date().toISOString().split('T')[0]});go('pipe');}
 function cm(id){document.getElementById(id).classList.remove('on');ePipId=null;eProdId=null;}
 document.querySelectorAll('.mov').forEach(ov=>ov.addEventListener('click',e=>{if(e.target===ov)cm(ov.id);}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){cm('m-pip');cm('m-prod');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){cm('m-pip');cm('m-prod');cm('m-imp');}});
+let iImgData=null,iImgType=null;
+function openIM(){
+  iImgData=null;iImgType=null;
+  document.getElementById('i-txt').value='';
+  document.getElementById('i-prev').style.display='none';
+  document.getElementById('i-img').src='';
+  document.getElementById('i-err').style.display='none';
+  document.getElementById('i-load').classList.remove('on');
+  document.getElementById('ifile').value='';
+  document.getElementById('m-imp').classList.add('on');
+}
+function onDrop(e){
+  e.preventDefault();e.stopPropagation();
+  document.getElementById('idrop').classList.remove('ov');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('image/'))onFile(f);
+}
+function onFile(f){
+  if(!f)return;
+  iImgType=f.type;
+  const r=new FileReader();
+  r.onload=ev=>{
+    iImgData=ev.target.result.split(',')[1];
+    document.getElementById('i-img').src=ev.target.result;
+    document.getElementById('i-prev').style.display='block';
+  };
+  r.readAsDataURL(f);
+}
+async function doAnalyze(){
+  const txt=document.getElementById('i-txt').value.trim();
+  if(!iImgData&&!txt){showIErr('Ajoute une image ou du texte à analyser.');return;}
+  const load=document.getElementById('i-load');
+  load.classList.add('on');
+  document.getElementById('i-err').style.display='none';
+  try{
+    const b={};
+    if(iImgData){b.image=iImgData;b.mediaType=iImgType;}
+    if(txt)b.text=txt;
+    const resp=await fetch('/api/parse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});
+    const d=await resp.json();
+    load.classList.remove('on');
+    if(!resp.ok||d.error){showIErr(d.error||'Erreur serveur');return;}
+    cm('m-imp');
+    openPM(d);
+    toast('Formulaire pré-rempli par l\'IA ✦');
+  }catch(e){
+    load.classList.remove('on');
+    showIErr('Erreur : '+e.message);
+  }
+}
+function showIErr(msg){const el=document.getElementById('i-err');el.textContent=msg;el.style.display='block';}
 function v(id){const e=document.getElementById(id);return e?e.value.trim():'';}
 function esc(s){return s.replace(/'/g,"\\'")}
 function cp(id){navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>toast('Template copié ✓')).catch(()=>{});}
