@@ -1,17 +1,14 @@
-const { kvGet, kvSet } = require('./_kv');
+const { getInbox, clearFromInbox } = require('./_kv');
 
 module.exports = async (req, res) => {
   if (req.method === 'GET') {
-    const inbox = (await kvGet('grub_inbox')) || [];
+    const inbox = await getInbox();
     return res.json({ inbox });
   }
 
   if (req.method === 'DELETE') {
     const { ids } = req.body || {};
-    if (ids?.length) {
-      const inbox = (await kvGet('grub_inbox')) || [];
-      await kvSet('grub_inbox', inbox.filter(p => !ids.includes(p.id)));
-    }
+    await clearFromInbox(ids);
     return res.json({ ok: true });
   }
 
