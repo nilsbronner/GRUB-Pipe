@@ -704,6 +704,21 @@ function exportCSV(type){
   const csv=[head,...rows].map(r=>r.map(c=>`"${(c||'').toString().replace(/"/g,'""')}"`).join(',')).join('\n');
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent('﻿'+csv);a.download=`grub-${type}-${new Date().toISOString().split('T')[0]}.csv`;a.click();
 }
+async function fetchInbox(){
+  try{
+    const r=await fetch('/api/inbox');
+    if(!r.ok)return;
+    const {inbox}=await r.json();
+    if(!inbox?.length)return;
+    const newOnes=inbox.filter(p=>!DB.pip.some(x=>x.id===p.id));
+    if(!newOnes.length)return;
+    DB.pip.push(...newOnes);
+    save();
+    await fetch('/api/inbox',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:newOnes.map(p=>p.id)})});
+    rDash();rPipe();
+    toast(`${newOnes.length} nouveau(x) prospect(s) depuis Gmail ✦`);
+  }catch(e){}
+}
 function seed(){
   const s=[
     {id:'seed_lepage_001',ts:1748476761000,pr:'Closerevolution',ct:'Julie Lepage',cd:'0602151018 · j.lepage@closerevolution.com',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Podcast / émission packagée',mn:'',pb:'50',st:'À contacter',d1:'2026-05-29',ac:'Répondre — envoyer tarif studio podcast',da:'2026-06-02',nr:'0',cs:'',ce:'',mg:'',nt:'Studio 27/07 — Podcast 2 invités, 2 micros, 3 caméras si possible, 10h–17h, sans montage. Via formulaire site web.'}
@@ -712,7 +727,7 @@ function seed(){
   s.forEach(e=>{if(!DB.pip.some(p=>p.id===e.id)){DB.pip.push(e);changed=true;}});
   if(changed)save();
 }
-load();seed();rDash();
+load();seed();fetchInbox();setInterval(fetchInbox,60000);rDash();
 </script>
 </body>
 </html>
