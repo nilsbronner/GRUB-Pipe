@@ -720,6 +720,7 @@ async function fetchInbox(){
   }catch(e){}
 }
 function seed(){
+  if(localStorage.getItem('grub_seeded_v4'))return;
   const s=[
     {id:'seed_lepage_001',ts:1748476761000,pr:'Closerevolution',ct:'Julie Lepage',cd:'0602151018 · j.lepage@closerevolution.com',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Podcast / émission packagée',mn:'',pb:'50',st:'À contacter',d1:'2026-05-29',ac:'Répondre — envoyer tarif studio podcast',da:'2026-06-02',nr:'0',cs:'',ce:'',mg:'',nt:'Studio 27/07 — Podcast 2 invités, 2 micros, 3 caméras si possible, 10h–17h, sans montage. Via formulaire site web.'},
     // Domiciliation actifs
@@ -772,14 +773,11 @@ function seed(){
     {id:'seed_crm_vega_technique',ts:1748476900000,pr:'VEGA technique',ct:'',cd:'',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'10222',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 10222.43 € | CA 2024 : 10222.43 € — Bureau d\'études techniques'},
     {id:'seed_crm_vivialys_service',ts:1748476900000,pr:'VIVIALYS SERVICE',ct:'',cd:'',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'48936',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 48936 € | CA 2024 : 48936 € — Groupe Vivialys (71 entités). Lutterbach. Gérante: Anne WINTENBERGER'},
     {id:'seed_crm_secteur_d_activit',ts:1748476900000,pr:'Secteur d\'activité',ct:'',cd:'Nb Factures 2022 · CA 2022 (€)',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 0 € | CA 2024 : Liste d\'e-mails € — CA 2024 (€)'},
-    {id:'seed_crm_expertise_comptable',ts:1748476900000,pr:'Expertise comptable & conseil',ct:'',cd:'13 · 218442',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 :  € | CA 2024 : nils.bronner@gmail.com, camille.bader@aed-expert.com € — 218442'},
-    {id:'seed_crm_bailleur_social___loge',ts:1748476900000,pr:'Bailleur social / Logement HLM',ct:'',cd:'6 · 12270',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 0 € | CA 2024 :  € — 12270'},
-    {id:'seed_crm_restauration___food',ts:1748476900000,pr:'Restauration / Food',ct:'',cd:'2 · 10800',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 :  € | CA 2024 : dylan.thalmann@synergiedev.fr, hello@le-grub.com € — 0'},
-    {id:'seed_crm_enseignement___formati',ts:1748476900000,pr:'Enseignement / Formation',ct:'',cd:'7 · 38561.44',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 :  € | CA 2024 :  € — 38561.44'}
+    {id:'seed_crm_herbapac',ts:1748476900000,pr:'Herbapac',ct:'',cd:'j.legris@herbapac.fr',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'104610',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 104 610 €'}
   ];
-  let changed=false;
-  s.forEach(e=>{if(!DB.pip.some(p=>p.id===e.id)){DB.pip.push(e);changed=true;}});
-  if(changed)save();
+  s.forEach(e=>{if(!DB.pip.some(p=>p.id===e.id))DB.pip.push(e);});
+  save();
+  localStorage.setItem('grub_seeded_v4','1');
 }
 load();seed();fetchInbox();setInterval(fetchInbox,60000);rDash();
 </script>
