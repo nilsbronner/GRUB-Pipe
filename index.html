@@ -720,7 +720,7 @@ async function fetchInbox(){
   }catch(e){}
 }
 function seed(){
-  if(localStorage.getItem('grub_seeded_v4'))return;
+  if(localStorage.getItem('grub_seeded_v6'))return;
   const s=[
     {id:'seed_lepage_001',ts:1748476761000,pr:'Closerevolution',ct:'Julie Lepage',cd:'0602151018 · j.lepage@closerevolution.com',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Podcast / émission packagée',mn:'',pb:'50',st:'À contacter',d1:'2026-05-29',ac:'Répondre — envoyer tarif studio podcast',da:'2026-06-02',nr:'0',cs:'',ce:'',mg:'',nt:'Studio 27/07 — Podcast 2 invités, 2 micros, 3 caméras si possible, 10h–17h, sans montage. Via formulaire site web.'},
     // Domiciliation actifs
@@ -772,14 +772,76 @@ function seed(){
     {id:'seed_crm_universite_de_strasbou',ts:1748476900000,pr:'UNIVERSITE DE STRASBOURG',ct:'',cd:'phusson@unistra.fr',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'13740',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 13740.45 € | CA 2024 : 13040.37 € — Université publique, Strasbourg. 52 000 étudiants. Prix Nobel 2021 (D. Card)'},
     {id:'seed_crm_vega_technique',ts:1748476900000,pr:'VEGA technique',ct:'',cd:'',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'10222',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 10222.43 € | CA 2024 : 10222.43 € — Bureau d\'études techniques'},
     {id:'seed_crm_vivialys_service',ts:1748476900000,pr:'VIVIALYS SERVICE',ct:'',cd:'',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'48936',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 48936 € | CA 2024 : 48936 € — Groupe Vivialys (71 entités). Lutterbach. Gérante: Anne WINTENBERGER'},
-    {id:'seed_crm_secteur_d_activit',ts:1748476900000,pr:'Secteur d\'activité',ct:'',cd:'Nb Factures 2022 · CA 2022 (€)',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Domiciliation',mn:'0',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 0 € | CA 2024 : Liste d\'e-mails € — CA 2024 (€)'},
-    {id:'seed_crm_herbapac',ts:1748476900000,pr:'Herbapac',ct:'',cd:'j.legris@herbapac.fr',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location de salle',mn:'104610',pb:'100',st:'Signé',d1:'2024-01-01',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'CA 2025 : 104 610 €'}
+    // ARIA Alsace — contacts prospects
+    {id:'seed_aria_alelor',ts:1748476800000,pr:'Alélor',ct:'Alain Trautmann',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Condiments, moutarde, raifort'},
+    {id:'seed_aria_alsace_lait',ts:1748476801000,pr:'Alsace Lait',ct:'Hervé Massot',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Produits laitiers'},
+    {id:'seed_aria_albisser',ts:1748476802000,pr:'Biscuiterie Albisser',ct:'Céline Albisser',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Biscuits, bredele'},
+    {id:'seed_aria_licorne',ts:1748476803000,pr:'Brasserie Licorne',ct:'Dominique Baudendiestel',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Bières'},
+    {id:'seed_aria_meteor',ts:1748476804000,pr:'Brasserie Meteor',ct:'Edouard Haag',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Bières'},
+    {id:'seed_aria_burgard',ts:1748476805000,pr:'Bretzel Burgard SAS',ct:'Emmanuel Goetz',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Bretzels, pains'},
+    {id:'seed_aria_cafe_sati',ts:1748476806000,pr:'Café Sati SA',ct:'Nicolas Schulé',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Cafés'},
+    {id:'seed_aria_colin_palc',ts:1748476807000,pr:'Colin – PALC',ct:'Eric Colin',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Ingrédients, matières premières'},
+    {id:'seed_aria_feyel_artzner',ts:1748476808000,pr:'Feyel Artzner',ct:'Claudine Roposte',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Foie gras, charcuterie'},
+    {id:'seed_aria_fortwenger',ts:1748476809000,pr:'Fortwenger',ct:'Steve Risch',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pains d\'épices'},
+    {id:'seed_aria_heimburger',ts:1748476810000,pr:'Heimburger S.A.',ct:'Philippe Heimburger',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pâtes alimentaires'},
+    {id:'seed_aria_heineken',ts:1748476811000,pr:'Heineken France',ct:'Stéphane Crepel',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Bières'},
+    {id:'seed_aria_kronenbourg',ts:1748476812000,pr:'Kronenbourg SAS',ct:'Céline Nicora',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Bières'},
+    {id:'seed_aria_wattwiller',ts:1748476813000,pr:'Les Grandes Sources de Wattwiller',ct:'Valérie Siegler',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Eaux'},
+    {id:'seed_aria_maison_le_pic',ts:1748476814000,pr:'Maison Le Pic',ct:'Sébastien Muller',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Charcuterie, traiteur'},
+    {id:'seed_aria_mars_wrigley',ts:1748476815000,pr:'Mars Wrigley Confectionery France',ct:'Hédi Hichri',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Confiserie, chocolat'},
+    {id:'seed_aria_melfor',ts:1748476816000,pr:'Melfor',ct:'Philippe Higy',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Condiments, vinaigre'},
+    {id:'seed_aria_metzger_muller',ts:1748476817000,pr:'Metzger Muller S.A.',ct:'Daniel Muller',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Charcuterie'},
+    {id:'seed_aria_paul_heumann',ts:1748476818000,pr:'Paul Heumann S.A.',ct:'Isabelle Heumann',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pains azymes'},
+    {id:'seed_aria_pierre_schmidt',ts:1748476819000,pr:'Pierre Schmidt',ct:'Laurence Cahen',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Choucroute, plats cuisinés'},
+    {id:'seed_aria_salpa',ts:1748476820000,pr:'Salpa',ct:'François De Bretagne',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Volailles, viandes'},
+    {id:'seed_aria_sem_soultzmatt',ts:1748476821000,pr:'SEM des Sources de Soultzmatt',ct:'Jacques Sérillon',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Eaux minérales'},
+    {id:'seed_aria_valfleuri',ts:1748476822000,pr:'Valfleuri SA',ct:'Jérôme Marienne',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pâtes alimentaires'},
+    {id:'seed_aria_wolfberger',ts:1748476823000,pr:'Wolfberger',ct:'Bertrand Dufour',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Vins, crémants, eaux-de-vie'},
+    {id:'seed_aria_aapf',ts:1748476824000,pr:'A.A.P.F.',ct:'Brucker Bertrand',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pâtes fraîches'},
+    {id:'seed_aria_abtey',ts:1748476825000,pr:'Abtey Chocolaterie',ct:'Wagner Anne-Catherine',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Chocolat'},
+    {id:'seed_aria_albagnac',ts:1748476826000,pr:'Albagnac SAS',ct:'Grandazzi Florent',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Équipements IAA'},
+    {id:'seed_aria_alsac_gastro',ts:1748476827000,pr:'Alsacienne de Gastronomie (Maison Klein)',ct:'Klein Olivier',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Charcuterie, traiteur'},
+    {id:'seed_aria_maison_choucroute',ts:1748476828000,pr:'Maison de la Choucroute',ct:'',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Choucroute'},
+    {id:'seed_aria_stoeffler',ts:1748476829000,pr:'Pains Grand\'Mère Stoeffler',ct:'',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Pains, viennoiserie'},
+    {id:'seed_aria_confitures_climont',ts:1748476830000,pr:'Les Confitures du Climont',ct:'Perrine Hilberer',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Confitures'},
+    {id:'seed_aria_herbapack',ts:1748476831000,pr:'Herbapack',ct:'',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'À confirmer'},
+    {id:'seed_aria_nexicity',ts:1748476832000,pr:'Nexicity',ct:'',cd:'',sr:'ARIA Alsace',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'À confirmer'},
+    // AGE — Agences communication
+    {id:'seed_age_novembre',ts:1748476840000,pr:'Novembre',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Stratégie, branding, motion & vidéo, retail design — 60+ experts, réseau international'},
+    {id:'seed_age_citeasen',ts:1748476841000,pr:'Citéasen',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Conseil, branding, direction artistique, digital — 30 ans d\'expérience, UCC Grand Est'},
+    {id:'seed_age_crapules',ts:1748476842000,pr:'Agence Crapules',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com digitale, réseaux sociaux, webdesign — Profil PME/TPE, budget accessible'},
+    {id:'seed_age_please',ts:1748476843000,pr:'Please Agency',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Webdesign, branding, réseaux sociaux, digital 360'},
+    {id:'seed_age_woozup',ts:1748476844000,pr:'Woozup',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Identité de marque, com digitale, événementiel — Approche agile, clients PME'},
+    {id:'seed_age_envol',ts:1748476845000,pr:'Envol Communication',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com digitale, vidéo, réseaux sociaux, métiers de bouche — Spé gastronomie/artisans'},
+    {id:'seed_age_tiz',ts:1748476846000,pr:'Tiz',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Performance digitale, web — 30 collab, 14 ans d\'expérience'},
+    {id:'seed_age_dagre',ts:1748476847000,pr:'Dagré Communication',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Stratégie, identité, digital, TV, radio, événementiel — Agence senior, bons budgets'},
+    {id:'seed_age_agile_business',ts:1748476848000,pr:'Agile Business',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Marketing opérationnel, branding, UI/UX, digital — Groupe 60 collab'},
+    {id:'seed_age_greencub',ts:1748476849000,pr:'GreenCub',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com, design, print, digital — Présence régionale forte'},
+    {id:'seed_age_alchimie',ts:1748476850000,pr:'Alchimie Alsace',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com digitale, print, événementiel'},
+    {id:'seed_age_acte5',ts:1748476851000,pr:'Acte 5',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Graphisme, vidéo, animation, événementiel, marketing — Très polyvalent, écoresponsable'},
+    {id:'seed_age_orient',ts:1748476852000,pr:'Orient Communication',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com sur-mesure, stratégie, print, digital'},
+    {id:'seed_age_adipso',ts:1748476853000,pr:'Adipso',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Applis mobiles, sites internet, digital'},
+    {id:'seed_age_actency',ts:1748476854000,pr:'Actency',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Sites internet, extranet, e-commerce, Drupal'},
+    {id:'seed_age_idaho',ts:1748476855000,pr:'Idaho',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com, marketing, web, événementiel'},
+    {id:'seed_age_candide',ts:1748476856000,pr:'Agence Candide',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com, événements culturels, pédagogique — Profil culturel/associatif'},
+    {id:'seed_age_my_branding_lab',ts:1748476857000,pr:'My Branding Lab',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com 360, pub, brand content, social media, événementiel — Grands groupes + PME'},
+    {id:'seed_age_identite_pdv',ts:1748476858000,pr:'Identité Pour De Vrai',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Événementiel, communication événementielle — Fort potentiel reportage événements'},
+    {id:'seed_age_hybrid_concept',ts:1748476859000,pr:'Hybrid Concept',ct:'Nicolas',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Agence co-locataire Le Grub — Co-production déjà en place'},
   ];
   s.forEach(e=>{if(!DB.pip.some(p=>p.id===e.id))DB.pip.push(e);});
   save();
-  localStorage.setItem('grub_seeded_v4','1');
+  localStorage.setItem('grub_seeded_v6','1');
 }
-load();seed();fetchInbox();setInterval(fetchInbox,60000);rDash();
+function migrate(){
+  if(localStorage.getItem('grub_migrated_v1'))return;
+  DB.pip.forEach(p=>{
+    if(p.id==='seed_lepage_001')return;
+    if(p.id.startsWith('seed_')){p.mn='';p.pb='';p.st='À contacter';}
+  });
+  save();
+  localStorage.setItem('grub_migrated_v1','1');
+}
+load();seed();migrate();fetchInbox();setInterval(fetchInbox,60000);rDash();
 </script>
 </body>
 </html>
