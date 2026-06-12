@@ -720,7 +720,7 @@ async function fetchInbox(){
   }catch(e){}
 }
 function seed(){
-  if(localStorage.getItem('grub_seeded_v6'))return;
+  if(localStorage.getItem('grub_seeded_v7'))return;
   const s=[
     {id:'seed_lepage_001',ts:1748476761000,pr:'Closerevolution',ct:'Julie Lepage',cd:'0602151018 · j.lepage@closerevolution.com',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Podcast / émission packagée',mn:'',pb:'50',st:'À contacter',d1:'2026-05-29',ac:'Répondre — envoyer tarif studio podcast',da:'2026-06-02',nr:'0',cs:'',ce:'',mg:'',nt:'Studio 27/07 — Podcast 2 invités, 2 micros, 3 caméras si possible, 10h–17h, sans montage. Via formulaire site web.'},
     // Domiciliation actifs
@@ -827,10 +827,16 @@ function seed(){
     {id:'seed_age_my_branding_lab',ts:1748476857000,pr:'My Branding Lab',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Com 360, pub, brand content, social media, événementiel — Grands groupes + PME'},
     {id:'seed_age_identite_pdv',ts:1748476858000,pr:'Identité Pour De Vrai',ct:'',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Événementiel, communication événementielle — Fort potentiel reportage événements'},
     {id:'seed_age_hybrid_concept',ts:1748476859000,pr:'Hybrid Concept',ct:'Nicolas',cd:'',sr:'Agences',rp:'Nils',fa:'Production rapide',of:'',mn:'',pb:'',st:'À contacter',d1:'',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Agence co-locataire Le Grub — Co-production déjà en place'},
+    // Inbound juin 2026
+    {id:'seed_inp_pauwels_001',ts:1781308800000,pr:'Sealed Air — Céline Pauwels',ct:'Céline Pauwels',cd:'0680941132 · celine.pauwels@sealedair.com',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Captation vidéo / case study',mn:'',pb:'',st:'À contacter',d1:'2026-06-12',ac:'Envoyer devis captation seule + captation+montage',da:'2026-06-14',nr:'0',cs:'',ce:'',mg:'',nt:'Vidéo case study chez client Puma (environs Strasbourg). Max 2 min, dynamique, pro. Site + installation + témoignage client. Tournage prévu 6 juillet. Devis demandé avec et sans post-prod. Via formulaire site web.'},
+    {id:'seed_inp_hugo_pierret_001',ts:1781308801000,pr:'Hugo Pierret',ct:'Hugo Pierret',cd:'',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Making-of studio',mn:'',pb:'',st:'À contacter',d1:'2026-06-12',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Demande via message : making-of lors d\'une session studio.'},
+    {id:'seed_inp_mehmet_gunduz_001',ts:1781308802000,pr:'Mehmet Gündüz',ct:'Mehmet Gündüz',cd:'',sr:'Inbound',rp:'Nils',fa:'Production rapide',of:'Plateau TV / émission',mn:'',pb:'',st:'À contacter',d1:'2026-06-12',ac:'Envoyer estimation journée + 4 jours',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Émission plateau turc : présentateur + 4-5 intervenants, table ronde. 4-5 cam 4K PTZ motorisées, micros indiv., régie image+son, prompteur, lumière plateau, décor sobre + écran. ~10 épisodes (4 jours tournage), potentiellement +20 épisodes. Sans montage — captation uniquement.'},
+    {id:'seed_inp_bemotion_diakite',ts:1781308803000,pr:'BEMOTION — M. Diakité',ct:'M. Diakité',cd:'',sr:'Direct / Réseau',rp:'Nils',fa:'Espaces',of:'Location studio fond vert',mn:'',pb:'',st:'Devis envoyé',d1:'2026-04-29',ac:'',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'Devis DEV-2026-042 du 29/04/2026. Option 1 : location studio fond vert (cam PTZ, éclairage LED, prompteur, plateau 5 pers.) — 520€ HT/j (624€ TTC). Option 2 : studio + 2 techniciens régie — 1 320€ HT/j (1 584€ TTC). Validité 30 jours.'},
+    {id:'seed_inp_emissions_hebdo',ts:1781308804000,pr:'Prospect — Émissions hebdo (à identifier)',ct:'',cd:'',sr:'',rp:'Nils',fa:'Production rapide',of:'Production vidéo récurrente',mn:'',pb:'',st:'À contacter',d1:'2026-06-12',ac:'Compléter devis montage + qualifier contact',da:'',nr:'0',cs:'',ce:'',mg:'',nt:'DEVIS À FAIRE : 2 émissions hebdo 1-2min ×51 (texte en une prise/overlay+sst, idem diff.) + 1 mensuelle 5min ×12 (pool vidéo, montage sujet défini). CTA — réu strat — 1 visio/mois mini. Kit graphique 1000€ HT : 7 objets, intro/outro, noming/CTA, transition/logo. Kit matériel + prépa dure. Prix montage format 1-2min et 5min à définir.'},
   ];
   s.forEach(e=>{if(!DB.pip.some(p=>p.id===e.id))DB.pip.push(e);});
   save();
-  localStorage.setItem('grub_seeded_v6','1');
+  localStorage.setItem('grub_seeded_v7','1');
 }
 function migrate(){
   if(localStorage.getItem('grub_migrated_v1'))return;
