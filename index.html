@@ -626,15 +626,15 @@ function saveProd(){
   save();cm('m-prod');rProd();rDash();toast(eProdId?'Projet mis à jour ✓':'Projet créé ✓');
 }
 function dProd(id){if(!confirm('Supprimer ce projet ?'))return;DB.prod=DB.prod.filter(x=>x.id!==id);save();rProd();toast('Supprimé');}
-function gSt(type,co){const inP=DB.pip.some(p=>p.pr===co);if(inP)return'Dans le pipeline';return DB.st[type+'__'+co]||'À contacter';}
-function sSt(type,co,val){DB.st[type+'__'+co]=val;save();rCt();}
+function gSt(type,co){const p=DB.pip.find(x=>x.pr===co);if(p)return p.st;return DB.st[type+'__'+co]||'À contacter';}
+function sSt(type,co,val){const p=DB.pip.find(x=>x.pr===co);if(p){p.st=val;}else{DB.st[type+'__'+co]=val;}save();rCt();}
 function rCt(){
   const q=(document.getElementById('ct-q').value||'').toLowerCase();
   const fs=document.getElementById('ct-fs').value;
   const build=(list,type)=>{
-    const f=list.filter(c=>{const s=gSt(type,c.co);if(fs&&s!==fs)return false;if(q&&!`${c.co} ${c.nm} ${c.sec} ${c.nt||''}`.toLowerCase().includes(q))return false;return true;});
+    const f=list.filter(c=>{const pEntry=DB.pip.find(x=>x.pr===c.co);const inP=!!pEntry;const s=inP?pEntry.st:(DB.st[type+'__'+c.co]||'À contacter');if(fs==='Dans le pipeline'){if(!inP)return false;}else if(fs&&s!==fs)return false;if(q&&!`${c.co} ${c.nm} ${c.sec} ${c.nt||''}`.toLowerCase().includes(q))return false;return true;});
     if(!f.length)return`<div class="empty"><div class="e-ttl">Aucun résultat</div></div>`;
-    return`<div class="gauto">${f.map(c=>{const s=gSt(type,c.co),inP=s==='Dans le pipeline';const idx=list.indexOf(c);const ctrl=inP?`<span class="bx bx-sg" style="flex-shrink:0">✓ Pipeline</span>`:`<select class="cc-sel" onchange="sSt('${type}','${esc(c.co)}',this.value)">${['À contacter','Contacté','En discussion'].map(o=>`<option${s===o?' selected':''}>${o}</option>`).join('')}</select>`;return`<div class="cc"><div class="cc-h"><div><div class="cc-co">${c.co}</div>${c.nm?`<div class="cc-nm">${c.nm}</div>`:''}</div>${ctrl}</div><div class="cc-sec">${c.sec}</div>${c.nt?`<div class="cc-nt">${c.nt}</div>`:''}<div class="cc-f"><span class="cc-of">Reportage événementiel</span>${!inP?`<button class="btn btn-g btn-xs" onclick="atp('${type}',${idx})">→ Pipeline</button>`:''}</div></div>`;}).join('')}</div>`;
+    return`<div class="gauto">${f.map(c=>{const pEntry=DB.pip.find(x=>x.pr===c.co);const inP=!!pEntry;const s=inP?pEntry.st:(DB.st[type+'__'+c.co]||'À contacter');const idx=list.indexOf(c);const opts=inP?['À contacter','Relancé','Devis envoyé','Négociation','Signé','Perdu']:['À contacter','Contacté','En discussion'];const ctrl=`<select class="cc-sel" onchange="sSt('${type}','${esc(c.co)}',this.value)">${opts.map(o=>`<option${s===o?' selected':''}>${o}</option>`).join('')}</select>`;return`<div class="cc"><div class="cc-h"><div><div class="cc-co">${c.co}</div>${c.nm?`<div class="cc-nm">${c.nm}</div>`:''}</div>${ctrl}</div>${inP?`<div style="font-size:10px;color:#4caf50;margin-bottom:2px">✓ Dans le pipeline</div>`:''}<div class="cc-sec">${c.sec}</div>${c.nt?`<div class="cc-nt">${c.nt}</div>`:''}<div class="cc-f"><span class="cc-of">Reportage événementiel</span>${!inP?`<button class="btn btn-g btn-xs" onclick="atp('${type}',${idx})">→ Pipeline</button>`:''}</div></div>`;}).join('')}</div>`;
   };
   if(sub==='aria')document.getElementById('ct-aria').innerHTML=build(ARIA,'a');
   else document.getElementById('ct-ag').innerHTML=build(AGE,'g');
